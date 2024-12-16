@@ -1,10 +1,10 @@
 var canvas = document.getElementById("canvas");
 
-canvas.width = window.innerWidth;
-canvas.height = window.innerHeight;
-
+var pixelRatio = window.devicePixelRatio || 1;
+canvas.width = window.innerWidth * pixelRatio;
+canvas.height = window.innerHeight * pixelRatio;
 var gl = canvas.getContext('webgl');
-if(!gl){
+if (!gl) {
   console.error("Unable to initialize WebGL.");
 }
 
@@ -88,7 +88,6 @@ float sdBezier(vec2 pos, vec2 A, vec2 B, vec2 C){
     return res;
 }
 
-
 vec2 getHeartPosition(float t){
     return vec2(16.0 * sin(t) * sin(t) * sin(t),
                             -(13.0 * cos(t) - 5.0 * cos(2.0*t)
@@ -127,39 +126,34 @@ void main(){
     
     float t = time;
     
-  float dist = getSegment(t, pos, 0.0, scale);
-  float glow = getGlow(dist, radius, intensity);
-  
-  vec3 col = vec3(0.0);
-
-  col += 10.0*vec3(smoothstep(0.003, 0.001, dist));
-  col += glow * vec3(1.0,0.05,0.3);
-  
-  dist = getSegment(t, pos, 3.4, scale);
-  glow = getGlow(dist, radius, intensity);
-  
-  col += 10.0*vec3(smoothstep(0.003, 0.001, dist));
-  col += glow * vec3(0.1,0.4,1.0);
-        
+    float dist = getSegment(t, pos, 0.0, scale);
+    float glow = getGlow(dist, radius, intensity);
+    
+    vec3 col = vec3(0.0);
+    col += 10.0*vec3(smoothstep(0.003, 0.001, dist));
+    col += glow * vec3(1.0,0.05,0.3);
+    
+    dist = getSegment(t, pos, 3.4, scale);
+    glow = getGlow(dist, radius, intensity);
+    col += 10.0*vec3(smoothstep(0.003, 0.001, dist));
+    col += glow * vec3(0.1,0.4,1.0);
+    
     col = 1.0 - exp(-col);
-
     col = pow(col, vec3(0.4545));
 
-     gl_FragColor = vec4(col,1.0);
+    gl_FragColor = vec4(col,1.0);
 }
 `;
-
 
 window.addEventListener('resize', onWindowResize, false);
 
 function onWindowResize(){
-  canvas.width  = window.innerWidth;
-  canvas.height = window.innerHeight;
-    gl.viewport(0, 0, canvas.width, canvas.height);
+  canvas.width = window.innerWidth * pixelRatio;
+  canvas.height = window.innerHeight * pixelRatio;
+  gl.viewport(0, 0, canvas.width, canvas.height);
   gl.uniform1f(widthHandle, window.innerWidth);
   gl.uniform1f(heightHandle, window.innerHeight);
 }
-
 
 function compileShader(shaderSource, shaderType){
   var shader = gl.createShader(shaderType);
@@ -186,7 +180,6 @@ function getUniformLocation(program, name) {
   }
   return attributeLocation;
 }
-
 
 var vertexShader = compileShader(vertexSource, gl.VERTEX_SHADER);
 var fragmentShader = compileShader(fragmentSource, gl.FRAGMENT_SHADER);
@@ -218,7 +211,7 @@ gl.vertexAttribPointer(positionHandle,
   false,        
   2 * 4,         
   0                 
-  );
+);
 
 var timeHandle = getUniformLocation(program, 'time');
 var widthHandle = getUniformLocation(program, 'width');
@@ -230,11 +223,10 @@ gl.uniform1f(heightHandle, window.innerHeight);
 var lastFrame = Date.now();
 var thisFrame;
 
-function draw(){
-
-    thisFrame = Date.now();
-  time += (thisFrame - lastFrame)/1000;    
-    lastFrame = thisFrame;
+function draw() {
+  thisFrame = Date.now();
+  time += (thisFrame - lastFrame) / 1000;    
+  lastFrame = thisFrame;
 
   gl.uniform1f(timeHandle, time);
   gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
