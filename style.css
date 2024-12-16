@@ -1,52 +1,57 @@
 body {
-    background-color: #000;
-    margin: 0;
-    overflow: hidden;
-    background-repeat: no-repeat;
+  margin: 0;
+  overflow: hidden;
+  background-color: #000;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+#heart-container {
+  position: relative;
+  width: 100%;
+  height: 100%;
 }
 
 #canvas {
-    display: block;
-    position: absolute;
-    top: 0;
-    left: 0;
+  display: block;
+  position: absolute;
+  top: 0;
+  left: 0;
 }
 
 #overlay-text {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    color: #fff;
-    font-family: 'Cursive', 'Times New Roman', sans-serif; /* Custom cursive font */
-    font-size: 48px; /* Larger font size */
-    font-weight: bold;
-    text-align: center;
-    text-shadow: 3px 3px 5px rgba(255, 255, 255, 0.6), 0 0 25px rgba(255, 255, 255, 0.8); /* Soft glowing effect */
-    background: linear-gradient(45deg, #ff6f61, #d4a5a5, #e9a5b1); /* Gradient color effect */
-    -webkit-background-clip: text; /* Clip the gradient to the text */
-    animation: fadeInOut 4s infinite; /* Fade animation */
-    padding: 10px;
-    border-radius: 10px; /* Optional: rounded corners for the text */
-    z-index: 1; /* Ensures the text appears above the canvas */
-    white-space: nowrap; /* Prevents text wrapping */
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-family: 'Cursive', 'Times New Roman', sans-serif;
+  font-size: 48px;
+  font-weight: bold;
+  color: #fff;
+  text-align: center;
+  text-shadow: 3px 3px 5px rgba(255, 255, 255, 0.6), 0 0 25px rgba(255, 255, 255, 0.8);
+  background: linear-gradient(45deg, #ff6f61, #d4a5a5, #e9a5b1);
+  -webkit-background-clip: text;
+  animation: fadeInOut 4s infinite;
+  white-space: nowrap;
 }
 
-/* Fade-in and fade-out animation */
 @keyframes fadeInOut {
-    0% {
-        opacity: 0;
-    }
-    50% {
-        opacity: 1;
-    }
-    100% {
-        opacity: 0;
-    }
+  0% {
+    opacity: 0;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
 }
 
 @media (max-width: 768px) {
-    #overlay-text {
-        font-size: 24px; /* Adjust font size for smaller screens */
-    }
+  #overlay-text {
+    font-size: 24px;
+  }
 }
