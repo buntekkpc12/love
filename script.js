@@ -1,23 +1,15 @@
-const wrapper = document.querySelector(".wrapper");
-const question = document.querySelector(".question");
-const gif = document.querySelector(".gif");
-const yesBtn = document.querySelector(".yes-btn");
-const noBtn = document.querySelector(".no-btn");
+const container = document.querySelector('.container');
 
-yesBtn.addEventListener("click", () => {
-  question.innerHTML = "B sl o doch knea my future wife😘❤️";
-  gif.src =
-    "https://media1.giphy.com/media/iCVzZwwE6QNAV2tEE0/giphy.gif";
-});
+function createFlower() {
+    const flower = document.createElement('div');
+    flower.classList.add('flower');
+    flower.style.left = `${Math.random() * 100}vw`;
+    flower.style.animationDuration = `${Math.random() * 5 + 5}s`;
+    container.appendChild(flower);
 
-noBtn.addEventListener("mouseover", () => {
-  const noBtnRect = noBtn.getBoundingClientRect();
-  const maxX = window.innerWidth - noBtnRect.width;
-  const maxY = window.innerHeight - noBtnRect.height;
+    setTimeout(() => {
+        flower.remove();
+    }, 10000);
+}
 
-  const randomX = Math.floor(Math.random() * maxX);
-  const randomY = Math.floor(Math.random() * maxY);
-
-  noBtn.style.left = randomX + "px";
-  noBtn.style.top = randomY + "px";
-});
+setInterval(createFlower, 300);
